@@ -73,12 +73,15 @@
   .lede { font-size: 19px; color: var(--muted); max-width: 640px; margin: 22px 0 0; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; align-items: center; }
 
+  .install-group { margin-top: 44px; max-width: 620px; }
+  .install-label { font-size: 12px; font-weight: 700; letter-spacing: 0.02em; color: var(--muted); margin: 0 0 8px; }
+  .install-label.rec { color: var(--lime); }
   .install {
-    margin-top: 44px;
     display: flex; align-items: center; gap: 12px;
     background: var(--ink-2); border: 1px solid var(--border);
-    border-radius: 12px; padding: 14px 16px; max-width: 620px;
+    border-radius: 12px; padding: 14px 16px;
   }
+  .install + .install-label { margin-top: 18px; }
   .install code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; color: var(--white); flex: 1; overflow-x: auto; white-space: nowrap; }
   .install code .dollar { color: var(--muted-2); }
   .copy-btn {
@@ -215,12 +218,20 @@
 
       <div class="hero-actions">
         <a class="btn btn-lime" href="https://expert.com.jm/dashboard/team" target="_blank" rel="noopener">Get your API key</a>
-        <a class="btn btn-ghost" href="https://github.com/incrhst/expertapp-receptionist-skill" target="_blank" rel="noopener">View on GitHub</a>
+        <a class="btn btn-ghost" href="https://github.com/incrhst/expertapp-receptionist-mcp" target="_blank" rel="noopener">View on GitHub</a>
       </div>
 
-      <div class="install">
-        <code><span class="dollar">$</span> npx skills add incrhst/expertapp-receptionist-skill</code>
-        <button class="copy-btn" onclick="copyInstall(this)">Copy</button>
+      <div class="install-group">
+        <p class="install-label rec">Recommended — the API key never touches the AI</p>
+        <div class="install">
+          <code><span class="dollar">$</span> npx -y github:incrhst/expertapp-receptionist-mcp</code>
+          <button class="copy-btn" onclick="copyText(this, 'npx -y github:incrhst/expertapp-receptionist-mcp')">Copy</button>
+        </div>
+        <p class="install-label">Agent doesn't support MCP? Use the REST skill instead</p>
+        <div class="install">
+          <code><span class="dollar">$</span> npx skills add incrhst/expertapp-receptionist-skill</code>
+          <button class="copy-btn" onclick="copyText(this, 'npx skills add incrhst/expertapp-receptionist-skill')">Copy</button>
+        </div>
       </div>
 
       <p class="soft-out">
@@ -260,13 +271,13 @@
         </div>
         <div class="step">
           <span class="n">2</span>
-          <h3>Install the skill</h3>
-          <p>One command, any supported agent. It ships the full Reception API reference and behavior guardrails.</p>
+          <h3>Connect it</h3>
+          <p>One command. If your agent supports MCP, use that — it never sees the key at all. Otherwise the REST skill works with any agent that can make an HTTP request.</p>
         </div>
         <div class="step">
           <span class="n">3</span>
-          <h3>Give it the key</h3>
-          <p>Your agent authenticates as <code style="background:var(--ink-2); padding:1px 6px; border-radius:5px; font-size:13px;">Authorization: Bearer &lt;key&gt;</code> — nothing else to configure.</p>
+          <h3>Set the key once</h3>
+          <p>Paste it into your agent's own config file — never into a chat with it. From then on it's just there, out of the model's sight.</p>
         </div>
         <div class="step">
           <span class="n">4</span>
@@ -335,6 +346,14 @@
       <div class="faq">
 
         <details>
+          <summary>Does the AI itself ever get to see my API key?</summary>
+          <div class="answer">
+            <p>Not if you use the recommended setup (MCP). You paste the key into your agent's own configuration file — the same place any other app credential goes — and the agent's underlying software reads it from there to talk to expert.com.jm. The AI model itself only ever sees "book this appointment," never a key, a password field, or anything that looks like one.</p>
+            <p>We started with a simpler setup where the AI had to include the key in every request it made itself. That works, but it means the key passes through the AI's own "thinking" at some point — which is exposed to conversation logs, and to someone tricking the AI into repeating things it shouldn't. We still support that simpler setup for agents that can't do anything else, but we don't recommend it anymore now that there's a better way.</p>
+          </div>
+        </details>
+
+        <details>
           <summary>If someone asks the agent to cancel a booking, how do you know it's really them?</summary>
           <div class="answer">
             <p>At first we just had the agent check that the name and email it was given matched what's on the booking. The problem: that only proves someone <em>knows</em> the client's email — not that they <em>are</em> the client. Anyone with that same information could get someone else's appointment cancelled.</p>
@@ -398,7 +417,7 @@
         <p>Free to install, easy to set up. You'll need an Expert.com.jm team account to generate a key — team &amp; reception access is a paid-plan feature.</p>
         <div class="hero-actions" style="justify-content:center;">
           <a class="btn btn-lime" href="https://expert.com.jm/dashboard/team" target="_blank" rel="noopener">Get your API key</a>
-          <a class="btn btn-ghost" href="https://github.com/incrhst/expertapp-receptionist-skill" target="_blank" rel="noopener">Read the docs</a>
+          <a class="btn btn-ghost" href="https://github.com/incrhst/expertapp-receptionist-mcp" target="_blank" rel="noopener">Read the docs</a>
         </div>
       </div>
     </div>
@@ -426,8 +445,7 @@
 </footer>
 
 <script>
-  function copyInstall(btn) {
-    var text = "npx skills add incrhst/expertapp-receptionist-skill";
+  function copyText(btn, text) {
     navigator.clipboard.writeText(text).then(function () {
       var original = btn.textContent;
       btn.textContent = "Copied";
