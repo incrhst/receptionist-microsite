@@ -130,6 +130,25 @@
   .scope-card.can li::before { content: "✓"; color: var(--lime); font-weight: 800; flex-shrink: 0; }
   .scope-card.cannot li::before { content: "—"; color: var(--muted-2); font-weight: 800; flex-shrink: 0; }
 
+  .faq { display: grid; gap: 12px; max-width: 760px; }
+  .faq details {
+    border: 1px solid var(--border); background: var(--ink-2); border-radius: 12px; padding: 4px 20px;
+  }
+  .faq summary {
+    cursor: pointer; list-style: none; padding: 16px 0; font-weight: 700; font-size: 15.5px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: "+"; color: var(--lime); font-size: 20px; font-weight: 400; flex-shrink: 0;
+    transition: transform .15s ease;
+  }
+  .faq details[open] summary::after { transform: rotate(45deg); }
+  .faq .answer { padding: 0 0 20px; font-size: 14.5px; line-height: 1.65; color: var(--muted); }
+  .faq .answer p { margin: 0 0 12px; }
+  .faq .answer p:last-child { margin-bottom: 0; }
+  .faq .answer strong { color: var(--white); }
+
   .cta-block {
     border-radius: 24px; padding: 56px 48px; text-align: center;
     background: var(--lime); color: var(--ink);
@@ -175,6 +194,7 @@
       <a href="#how">How it works</a>
       <a href="#usecases">Who it's for</a>
       <a href="#scope">What it can do</a>
+      <a href="#faq">FAQ</a>
       <a href="https://github.com/incrhst/expertapp-receptionist-skill" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </div>
@@ -304,6 +324,61 @@
             <li>Refunds — human-only, in your dashboard</li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" style="border-top:1px solid var(--border-soft);">
+    <div class="wrap">
+      <h2>FAQ</h2>
+      <p class="section-lede">The reasoning behind how this is built, not just what it does — this is written for whoever on your team is deciding whether to trust it.</p>
+      <div class="faq">
+
+        <details>
+          <summary>Why does cancelling a booking need a client email click, not just a name/email match?</summary>
+          <div class="answer">
+            <p>Earlier versions checked that the agent's stated <code>clientEmail</code>/<code>clientPhone</code> matched the record on the booking. That stops a wrong guess, but it doesn't prove the person asking actually <em>is</em> the client — an API key authorizes the agent to manage a business's bookings, not to vouch for who's messaging it on any given day. Someone who knows (or guesses) a client's email could still ask the agent to cancel their appointment.</p>
+            <p>So cancelling now queues the request and emails a real confirm link to the address on file. Clicking it is what a typed claim can't be: proof the requester actually has access to that inbox. The booking stays fully active — untouched — until they do.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why doesn't a free booking confirm immediately the way a paid one does?</summary>
+          <div class="answer">
+            <p>A paid booking already has a natural confirmation gate built in: the client has to open a real payment link and pay before anything is final. A free (<code>collectPayment: false</code>) booking had no equivalent — it used to confirm on the agent's word alone, which meant a stranger's name and email could land on the calendar as a real appointment with zero involvement from the actual client.</p>
+            <p>The fix mirrors cancellation: a free booking now holds the slot briefly and emails the client a link. Nothing is a real appointment — nothing shows up as booked anywhere — until they click it themselves.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why hold the slot for a short window instead of not holding it, or holding it forever?</summary>
+          <div class="answer">
+            <p>Not holding it at all means someone else could grab the exact same time in the minute it takes a client to open an email — the whole point of checking availability first would be undermined. Holding it indefinitely means an appointment nobody ever actually confirmed could squat on a provider's calendar forever, quietly costing them real bookings.</p>
+            <p>A short, clearly-stated window (currently 20 minutes, always returned as <code>holdMinutes</code> in the API response) is the middle path: real protection against a double-booking race, with an honest expiry if nobody follows through.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why is there no refund endpoint?</summary>
+          <div class="answer">
+            <p>Scheduling actions — holding a slot, creating a booking, cancelling one — are cheap to get wrong and cheap to reverse. Moving money isn't. A refund issued by an agent that misread a conversation is a real financial mistake, not an inconvenience to smooth over. That asymmetry is why refunds are the one thing deliberately left out of the API entirely — always a human, always from the business's own dashboard.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Why can a receptionist (human or AI) see every booking on the team, but not pricing or payouts?</summary>
+          <div class="answer">
+            <p>It's the same access you'd hand a front-desk hire on day one: enough context to run the calendar for the whole team, zero visibility into the business's financial account. The agent gets exactly that — not more because it's software, not less because it's useful.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>If a business has a team, why doesn't one team member's booking block another's calendar?</summary>
+          <div class="answer">
+            <p>Because they're different people. Early on, availability checks were scoped to the whole business account rather than to the specific person being booked — which meant one barber's 2pm appointment made every other barber (and the owner) look busy at 2pm too, even though nobody else's calendar had actually changed. That's fixed: availability, holds, and conflict checks are all scoped per-provider now, so a team member's schedule only ever competes with their own bookings.</p>
+          </div>
+        </details>
+
       </div>
     </div>
   </section>
