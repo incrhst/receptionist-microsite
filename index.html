@@ -331,59 +331,59 @@
   <section id="faq" style="border-top:1px solid var(--border-soft);">
     <div class="wrap">
       <h2>FAQ</h2>
-      <p class="section-lede">The reasoning behind how this is built, not just what it does — this is written for whoever on your team is deciding whether to trust it.</p>
+      <p class="section-lede">Plain answers to the questions you'd actually ask before trusting an AI agent with your calendar and your clients.</p>
       <div class="faq">
 
         <details>
-          <summary>Why does cancelling a booking need a client email click, not just a name/email match?</summary>
+          <summary>If someone asks the agent to cancel a booking, how do you know it's really them?</summary>
           <div class="answer">
-            <p>Earlier versions checked that the agent's stated <code>clientEmail</code>/<code>clientPhone</code> matched the record on the booking. That stops a wrong guess, but it doesn't prove the person asking actually <em>is</em> the client — an API key authorizes the agent to manage a business's bookings, not to vouch for who's messaging it on any given day. Someone who knows (or guesses) a client's email could still ask the agent to cancel their appointment.</p>
-            <p>So cancelling now queues the request and emails a real confirm link to the address on file. Clicking it is what a typed claim can't be: proof the requester actually has access to that inbox. The booking stays fully active — untouched — until they do.</p>
+            <p>At first we just had the agent check that the name and email it was given matched what's on the booking. The problem: that only proves someone <em>knows</em> the client's email — not that they <em>are</em> the client. Anyone with that same information could get someone else's appointment cancelled.</p>
+            <p>So now, when your agent is asked to cancel a booking, nothing happens right away. We email the client a link, and the appointment stays exactly as it was until <em>they</em> click it. That's real proof it's actually them — not just someone repeating a name and email back to the agent.</p>
           </div>
         </details>
 
         <details>
-          <summary>Why doesn't a free booking confirm immediately the way a paid one does?</summary>
+          <summary>Why doesn't a free booking get confirmed right away, the way a paid one does?</summary>
           <div class="answer">
-            <p>A paid booking already has a natural confirmation gate built in: the client has to open a real payment link and pay before anything is final. A free (<code>collectPayment: false</code>) booking had no equivalent — it used to confirm on the agent's word alone, which meant a stranger's name and email could land on the calendar as a real appointment with zero involvement from the actual client.</p>
-            <p>The fix mirrors cancellation: a free booking now holds the slot briefly and emails the client a link. Nothing is a real appointment — nothing shows up as booked anywhere — until they click it themselves.</p>
+            <p>When a client pays for a booking, going through checkout and paying is already proof that a real person made the booking. A free booking had no equivalent — it used to go straight onto the calendar the moment the agent said so, with no proof anyone real actually agreed to it.</p>
+            <p>Now a free booking works the same way as a cancellation: we hold the time and email the client a link. It only becomes a real appointment once they click to confirm it — nothing shows up on your calendar before that.</p>
           </div>
         </details>
 
         <details>
-          <summary>Why hold the slot for a short window instead of not holding it, or holding it forever?</summary>
+          <summary>Why hold the time slot for a few minutes instead of not holding it, or holding it forever?</summary>
           <div class="answer">
-            <p>Not holding it at all means someone else could grab the exact same time in the minute it takes a client to open an email — the whole point of checking availability first would be undermined. Holding it indefinitely means an appointment nobody ever actually confirmed could squat on a provider's calendar forever, quietly costing them real bookings.</p>
-            <p>A short, clearly-stated window (currently 20 minutes, always returned as <code>holdMinutes</code> in the API response) is the middle path: real protection against a double-booking race, with an honest expiry if nobody follows through.</p>
+            <p>If we didn't hold the slot at all, someone else could grab that exact time in the couple of minutes it takes a client to check their email — frustrating for everyone. If we held it forever, an appointment nobody ever actually confirmed could sit there blocking that time slot indefinitely, quietly costing you real bookings.</p>
+            <p>So we hold it briefly — currently 20 minutes — and the client is told exactly how long they have. Long enough to open an email, short enough that someone who never follows through doesn't cost you the slot for good.</p>
           </div>
         </details>
 
         <details>
-          <summary>Why is there no refund endpoint?</summary>
+          <summary>Can the AI agent issue refunds?</summary>
           <div class="answer">
-            <p>Scheduling actions — holding a slot, creating a booking, cancelling one — are cheap to get wrong and cheap to reverse. Moving money isn't. A refund issued by an agent that misread a conversation is a real financial mistake, not an inconvenience to smooth over. That asymmetry is why refunds are the one thing deliberately left out of the API entirely — always a human, always from the business's own dashboard.</p>
+            <p>No, never. A scheduling mistake is easy to undo — a wrong booking or cancellation can just be redone. A money mistake isn't. If an AI agent misreads a conversation and refunds someone, that's real money gone, not a minor inconvenience. So refunds are something the agent can never do — that decision always stays with you, made from your own dashboard.</p>
           </div>
         </details>
 
         <details>
-          <summary>Why can a receptionist (human or AI) see every booking on the team, but not pricing or payouts?</summary>
+          <summary>The agent can see every booking on my team — can it see pricing, or move money?</summary>
           <div class="answer">
-            <p>It's the same access you'd hand a front-desk hire on day one: enough context to run the calendar for the whole team, zero visibility into the business's financial account. The agent gets exactly that — not more because it's software, not less because it's useful.</p>
+            <p>Think of it like what you'd hand a new front-desk hire on their first day: enough access to manage the calendar for your whole team, and nothing else. No pricing, no subscription or billing details, no payout or bank information. The AI agent gets exactly that same level of access — no more, no less.</p>
           </div>
         </details>
 
         <details>
-          <summary>If a business has a team, why doesn't one team member's booking block another's calendar?</summary>
+          <summary>If I have a team, does booking one person accidentally block everyone else's calendar?</summary>
           <div class="answer">
-            <p>Because they're different people. Early on, availability checks were scoped to the whole business account rather than to the specific person being booked — which meant one barber's 2pm appointment made every other barber (and the owner) look busy at 2pm too, even though nobody else's calendar had actually changed. That's fixed: availability, holds, and conflict checks are all scoped per-provider now, so a team member's schedule only ever competes with their own bookings.</p>
+            <p>No — and if you're wondering because that's happened to you elsewhere: we actually caught and fixed exactly that bug early on. Booking one barber for 2pm was making every other barber (and even the owner) look busy at 2pm too, even though nobody else's schedule had actually changed. Every team member's calendar is now tracked completely separately, so one person's bookings only ever affect their own time.</p>
           </div>
         </details>
 
         <details>
           <summary>Can a client cancel at the last minute through the agent?</summary>
           <div class="answer">
-            <p>Only if the business allows it. Every business sets its own cancellation-notice window (a whole number of hours, shown to clients right when they book, editable any time in Settings). If someone asks the agent to cancel inside that window, the request is rejected outright — the agent is told the required notice and passes it along, rather than cancelling anyway and leaving the business to sort it out after the fact.</p>
-            <p>This is purely about timing, and separate from any non-refundable in-person booking fee a service might already have — the two don't interact.</p>
+            <p>Only if you allow it. You choose how much notice you need for a cancellation — shown to clients right when they book, and you can change it any time from Settings. If someone tries to cancel through the agent with less notice than that, the request is automatically turned down and they're told how much notice you actually require. The agent won't just cancel it anyway and leave you to deal with it.</p>
+            <p>This is only about timing — it has no effect on any non-refundable booking fee you already charge for in-person services. The two are completely separate.</p>
           </div>
         </details>
 
