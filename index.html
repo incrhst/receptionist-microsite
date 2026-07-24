@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Receptionist for Jamaican businesses — Expert.com.jm</title>
+<meta name="description" content="Turn your AI agent into an AI receptionist for appointment-based businesses in Jamaica — barbershops, salons, clinics, spas, studios, and consultants. Checks availability, books, reschedules, and cancels appointments. No pricing or payout access." />
+<meta property="og:title" content="Turn your AI agent into an AI receptionist" />
+<meta property="og:description" content="For Jamaica's appointment-based businesses — barbershops, salons, clinics, spas, studios, consultants. Powered by Expert.com.jm." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='28' fill='%23cdf546'/%3E%3Cpath d='M68 25H32V75H68V63H46V55H65V45H46V37H68V25Z' fill='%230a0a0a'/%3E%3C/svg%3E" />
+<style>
+  :root {
+    --ink: #0a0a0a;
+    --ink-2: #131313;
+    --lime: #cdf546;
+    --lime-dim: #a9cf3a;
+    --white: #ffffff;
+    --muted: #9a9a9a;
+    --muted-2: #6f6f6f;
+    --border: rgba(255,255,255,0.10);
+    --border-soft: rgba(255,255,255,0.06);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--ink);
+    color: var(--white);
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+  .mark { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 700; letter-spacing: -0.01em; }
+  .mark svg { display: block; border-radius: 8px; }
+  .mark .word { color: var(--white); }
+  .mark .word b { color: var(--muted); font-weight: 600; }
+
+  header.site {
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  header.site .bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; }
+  header.site nav { display: flex; align-items: center; gap: 28px; font-size: 14px; color: var(--muted); }
+  header.site nav a:hover { color: var(--white); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    border-radius: 10px; padding: 10px 18px; font-size: 14px; font-weight: 600;
+    text-decoration: none; border: 1px solid transparent; cursor: pointer;
+    transition: transform .15s ease, background .15s ease, border-color .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-lime { background: var(--lime); color: var(--ink); }
+  .btn-lime:hover { background: #d9ff6b; }
+  .btn-ghost { border-color: var(--border); color: var(--white); }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); }
+
+  main { padding-top: 72px; }
+  section { padding: 96px 0; }
+  section.tight { padding: 64px 0; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--lime); background: rgba(205,245,70,0.08); border: 1px solid rgba(205,245,70,0.25);
+    padding: 6px 12px; border-radius: 999px;
+  }
+  h1 { font-size: clamp(38px, 6vw, 68px); line-height: 1.04; letter-spacing: -0.02em; margin: 20px 0 0; font-weight: 800; }
+  h1 .lime { color: var(--lime); }
+  .lede { font-size: 19px; color: var(--muted); max-width: 640px; margin: 22px 0 0; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; align-items: center; }
+
+  .install {
+    margin-top: 44px;
+    display: flex; align-items: center; gap: 12px;
+    background: var(--ink-2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 14px 16px; max-width: 620px;
+  }
+  .install code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 14px; color: var(--white); flex: 1; overflow-x: auto; white-space: nowrap; }
+  .install code .dollar { color: var(--muted-2); }
+  .copy-btn {
+    flex-shrink: 0; background: transparent; border: 1px solid var(--border); color: var(--muted);
+    border-radius: 8px; padding: 7px 12px; font-size: 12px; font-weight: 600; cursor: pointer;
+  }
+  .copy-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+
+  .soft-out { margin-top: 26px; font-size: 14px; color: var(--muted-2); }
+  .soft-out a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+  .soft-out a:hover { color: var(--white); }
+
+  h2 { font-size: clamp(26px, 4vw, 38px); letter-spacing: -0.015em; margin: 0 0 14px; font-weight: 800; }
+  .section-lede { color: var(--muted); font-size: 16px; max-width: 620px; margin: 0 0 44px; }
+
+  .agent-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .agent-chip {
+    display: flex; align-items: center; gap: 10px;
+    border: 1px solid var(--border); background: var(--ink-2);
+    border-radius: 12px; padding: 14px 18px; font-weight: 600; font-size: 15px;
+  }
+  .agent-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lime); flex-shrink: 0; }
+  .agent-more { font-size: 14px; color: var(--muted-2); margin-top: 16px; }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .step { border: 1px solid var(--border); background: var(--ink-2); border-radius: 16px; padding: 26px 22px; }
+  .step .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 50%; background: var(--lime); color: var(--ink);
+    font-weight: 800; font-size: 14px; margin-bottom: 16px;
+  }
+  .step h3 { font-size: 16px; margin: 0 0 8px; font-weight: 700; }
+  .step p { font-size: 14px; color: var(--muted); margin: 0; }
+
+  .usecases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .usecase { border: 1px solid var(--border-soft); border-radius: 14px; padding: 20px 22px; }
+  .usecase h4 { margin: 0 0 6px; font-size: 15px; font-weight: 700; }
+  .usecase p { margin: 0; font-size: 13.5px; color: var(--muted-2); }
+
+  .scope { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .scope-card { border-radius: 16px; padding: 26px; border: 1px solid var(--border); }
+  .scope-card.can { background: linear-gradient(180deg, rgba(205,245,70,0.07), transparent); }
+  .scope-card.cannot { background: var(--ink-2); }
+  .scope-card h3 { margin: 0 0 14px; font-size: 15px; font-weight: 700; }
+  .scope-card.can h3 { color: var(--lime); }
+  .scope-card.cannot h3 { color: var(--muted); }
+  .scope-card ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .scope-card li { font-size: 14px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start; }
+  .scope-card.can li::before { content: "✓"; color: var(--lime); font-weight: 800; flex-shrink: 0; }
+  .scope-card.cannot li::before { content: "—"; color: var(--muted-2); font-weight: 800; flex-shrink: 0; }
+
+  .cta-block {
+    border-radius: 24px; padding: 56px 48px; text-align: center;
+    background: var(--lime); color: var(--ink);
+  }
+  .cta-block h2 { color: var(--ink); }
+  .cta-block p { color: rgba(10,10,10,0.72); max-width: 520px; margin: 0 auto 28px; font-size: 16px; }
+  .cta-block .btn-lime { background: var(--ink); color: var(--white); }
+  .cta-block .btn-lime:hover { background: #1c1c1c; }
+  .cta-block .btn-ghost { border-color: rgba(10,10,10,0.25); color: var(--ink); }
+  .cta-block .btn-ghost:hover { border-color: rgba(10,10,10,0.5); }
+
+  footer { border-top: 1px solid var(--border-soft); padding: 40px 0; }
+  footer .bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  footer nav { display: flex; gap: 22px; font-size: 13.5px; color: var(--muted-2); }
+  footer nav a:hover { color: var(--muted); }
+  footer .copyright { font-size: 13px; color: var(--muted-2); }
+
+  @media (max-width: 860px) {
+    .steps { grid-template-columns: repeat(2, 1fr); }
+    .usecases { grid-template-columns: repeat(2, 1fr); }
+    .scope { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .steps { grid-template-columns: 1fr; }
+    .usecases { grid-template-columns: 1fr; }
+    section { padding: 64px 0; }
+    .cta-block { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap bar">
+    <a class="mark" href="#top">
+      <svg width="30" height="30" viewBox="0 0 100 100" aria-hidden="true">
+        <rect width="100" height="100" rx="28" fill="#cdf546"/>
+        <path d="M68 25H32V75H68V63H46V55H65V45H46V37H68V25Z" fill="#0a0a0a"/>
+      </svg>
+      <span class="word">Receptionist <b>by Expert.com.jm</b></span>
+    </a>
+    <nav>
+      <a href="#how">How it works</a>
+      <a href="#usecases">Who it's for</a>
+      <a href="#scope">What it can do</a>
+      <a href="https://github.com/incrhst/expertapp-receptionist-skill" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <section style="padding-top:64px;">
+    <div class="wrap">
+      <span class="eyebrow">For appointment-based businesses in Jamaica</span>
+      <h1>Turn your AI agent into<br/>an <span class="lime">AI receptionist</span>.</h1>
+      <p class="lede">
+        Barbershop, salon, clinic, spa, studio, or one-person consultancy — if clients book you by
+        appointment, your AI agent can now answer for you: check what's open, book the time, reschedule,
+        or cancel. Same access a human receptionist gets, nothing more.
+      </p>
+
+      <div class="hero-actions">
+        <a class="btn btn-lime" href="https://expert.com.jm/dashboard/team" target="_blank" rel="noopener">Get your API key</a>
+        <a class="btn btn-ghost" href="https://github.com/incrhst/expertapp-receptionist-skill" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+
+      <div class="install">
+        <code><span class="dollar">$</span> npx skills add incrhst/expertapp-receptionist-skill</code>
+        <button class="copy-btn" onclick="copyInstall(this)">Copy</button>
+      </div>
+
+      <p class="soft-out">
+        Not ready for an AI receptionist? You can start as an independent professional at
+        <a href="https://expert.com.jm" target="_blank" rel="noopener">expert.com.jm</a> — a booking page,
+        online payments, and a calendar clients can book straight into. No AI agent required.
+      </p>
+    </div>
+  </section>
+
+  <section class="tight" style="border-top:1px solid var(--border-soft);">
+    <div class="wrap">
+      <h2>Works with the AI agent you already use</h2>
+      <p class="section-lede">One skill, installed once — compatible with the major assistants and every major coding agent.</p>
+      <div class="agent-row">
+        <span class="agent-chip"><span class="dot"></span> Claude</span>
+        <span class="agent-chip"><span class="dot"></span> ChatGPT</span>
+        <span class="agent-chip"><span class="dot"></span> Gemini</span>
+        <span class="agent-chip"><span class="dot"></span> Claude Code</span>
+        <span class="agent-chip"><span class="dot"></span> Cursor</span>
+        <span class="agent-chip"><span class="dot"></span> GitHub Copilot</span>
+        <span class="agent-chip"><span class="dot"></span> Windsurf</span>
+      </div>
+      <p class="agent-more">Plus 30+ other tool-calling agents via the universal <a href="https://skills.sh" target="_blank" rel="noopener" style="text-decoration:underline;">skills.sh</a> CLI.</p>
+    </div>
+  </section>
+
+  <section id="how">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <p class="section-lede">Ten minutes, and your agent can keep your calendar running while you work.</p>
+      <div class="steps">
+        <div class="step">
+          <span class="n">1</span>
+          <h3>Generate a key</h3>
+          <p>From your Expert.com.jm dashboard: Team → Reception &amp; management access → Generate an API key for an AI agent.</p>
+        </div>
+        <div class="step">
+          <span class="n">2</span>
+          <h3>Install the skill</h3>
+          <p>One command, any supported agent. It ships the full Reception API reference and behavior guardrails.</p>
+        </div>
+        <div class="step">
+          <span class="n">3</span>
+          <h3>Give it the key</h3>
+          <p>Your agent authenticates as <code style="background:var(--ink-2); padding:1px 6px; border-radius:5px; font-size:13px;">Authorization: Bearer &lt;key&gt;</code> — nothing else to configure.</p>
+        </div>
+        <div class="step">
+          <span class="n">4</span>
+          <h3>It answers for you</h3>
+          <p>Checks availability, books, reschedules, cancels — for you, or anyone on your team.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="usecases" style="border-top:1px solid var(--border-soft);">
+    <div class="wrap">
+      <h2>Built for appointment-based work</h2>
+      <p class="section-lede">If someone has to book a specific time with you, this is for you — solo, or as a team.</p>
+      <div class="usecases">
+        <div class="usecase"><h4>Barbershops &amp; hairstyling</h4><p>Kingston Fades, salons, braiding studios — one chair or several.</p></div>
+        <div class="usecase"><h4>Beauty &amp; spa</h4><p>Nail techs, lash and brow studios, massage and spa treatments.</p></div>
+        <div class="usecase"><h4>Clinics &amp; practitioners</h4><p>Physios, therapists, and other appointment-based practices.</p></div>
+        <div class="usecase"><h4>Auto detailing &amp; car washes</h4><p>Slot-based bays where a booked time actually matters.</p></div>
+        <div class="usecase"><h4>Fitness &amp; studios</h4><p>Personal training sessions, 1-on-1 classes, studio time.</p></div>
+        <div class="usecase"><h4>Consultants &amp; tutors</h4><p>Strategy sessions, tutoring blocks, advisory calls.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="scope" style="border-top:1px solid var(--border-soft);">
+    <div class="wrap">
+      <h2>Same scope as a human receptionist — no more</h2>
+      <p class="section-lede">The agent gets exactly what a front-desk hire would get. Nothing that touches your money.</p>
+      <div class="scope">
+        <div class="scope-card can">
+          <h3>What it can do</h3>
+          <ul>
+            <li>Check availability for any service or team member</li>
+            <li>Create a new booking</li>
+            <li>Reschedule an existing booking</li>
+            <li>Cancel a booking</li>
+            <li>List upcoming bookings across the whole team</li>
+          </ul>
+        </div>
+        <div class="scope-card cannot">
+          <h3>What it can't touch</h3>
+          <ul>
+            <li>Pricing or service setup</li>
+            <li>Subscription or billing</li>
+            <li>Payouts or bank details</li>
+            <li>Refunds — human-only, in your dashboard</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="border-top:1px solid var(--border-soft);">
+    <div class="wrap">
+      <div class="cta-block">
+        <h2>Give your calendar an AI receptionist</h2>
+        <p>Free to install. You'll need an Expert.com.jm team account to generate a key — team &amp; reception access is a paid-plan feature.</p>
+        <div class="hero-actions" style="justify-content:center;">
+          <a class="btn btn-lime" href="https://expert.com.jm/dashboard/team" target="_blank" rel="noopener">Get your API key</a>
+          <a class="btn btn-ghost" href="https://github.com/incrhst/expertapp-receptionist-skill" target="_blank" rel="noopener">Read the docs</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap bar">
+    <a class="mark" href="#top">
+      <svg width="22" height="22" viewBox="0 0 100 100" aria-hidden="true">
+        <rect width="100" height="100" rx="28" fill="#cdf546"/>
+        <path d="M68 25H32V75H68V63H46V55H65V45H46V37H68V25Z" fill="#0a0a0a"/>
+      </svg>
+      <span class="word" style="font-size:14px;">Receptionist <b>by Expert.com.jm</b></span>
+    </a>
+    <nav>
+      <a href="https://expert.com.jm" target="_blank" rel="noopener">Expert.com.jm</a>
+      <a href="https://expert.com.jm/docs" target="_blank" rel="noopener">Guide</a>
+      <a href="https://github.com/incrhst/expertapp-receptionist-skill" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://skills.sh" target="_blank" rel="noopener">skills.sh</a>
+    </nav>
+    <span class="copyright">© 2026 Expert.com.jm</span>
+  </div>
+</footer>
+
+<script>
+  function copyInstall(btn) {
+    var text = "npx skills add incrhst/expertapp-receptionist-skill";
+    navigator.clipboard.writeText(text).then(function () {
+      var original = btn.textContent;
+      btn.textContent = "Copied";
+      setTimeout(function () { btn.textContent = original; }, 1600);
+    });
+  }
+</script>
+
+</body>
+</html>
